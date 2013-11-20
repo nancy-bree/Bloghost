@@ -1,0 +1,37 @@
+﻿@model Bloghost.Core.Entities.Comment
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">Leave a comment</h1>
+	</div>
+} 
+
+@using (Html.BeginForm("Create", "Comment"))
+{
+    @Html.AntiForgeryToken()
+    //@Html.ValidationSummary(true)
+
+    @Html.HiddenFor(x => x.Entry.ID)
+
+    <div class="form-block">
+        <div class="editor-label"> 
+            <b>@Html.LabelFor(x => x.Title)</b>
+        </div> 
+        <div class="editor-field"> 
+            @Html.EditorFor(x => x.Title)
+        </div> 
+        <br />
+        <div class="editor-label"> 
+            <b>@Html.LabelFor(x => x.CommentBody)</b>
+        </div> 
+        <div class="editor-field"> 
+            @Html.TextAreaFor(x => x.CommentBody, 5, 5, null)<br />
+            @Html.ValidationMessageFor(x => x.CommentBody) 
+        </div> 
+        <p> 
+            <input type="submit" value="Reply" class="button" /> 
+        </p>
+    </div>
+}
+

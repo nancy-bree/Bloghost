@@ -1,0 +1,61 @@
+﻿@model Bloghost.Core.Entities.Entry
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">@Html.DisplayFor(x => Model.Blog.BlogName)</h1>
+        @if (!String.IsNullOrEmpty(Model.Blog.BlogSubtitle)) 
+        { 
+            <span class="blog-subtitle">@Html.DisplayFor(x => Model.Blog.BlogSubtitle)</span>
+        }
+	</div>
+}
+<div class="full-post-block">
+<div class="post-body">
+	<div class="post-content-inner">
+		<h1 class="post-title">@Html.DisplayFor(x => Model.Title)</h1>
+        @Html.Raw(HttpUtility.HtmlDecode(Model.EntryBody))
+        @if (Model.Tags.Count > 0) { 
+            <em class="tags">Tags: 
+                @Html.Raw(String.Join(", ", Model.Tags
+                .Select(tag => @Html.ActionLink(tag.Name, "Index", "Tag", new { id = tag.ID}, null).ToHtmlString()).ToArray()))
+            </em> 
+        }
+	</div>
+</div>
+    </div>
+@if (Model.Comments.Count > 0)
+{
+    <h2 class="label-title">Comments</h2>
+    <div id="comments-container">
+        <ul id="comments">
+    @foreach (var item in Model.Comments)
+    {
+                @Html.Partial("_CommentTemplate", item)
+    }
+        </ul>
+    </div>
+}
+
+<h2 class="label-title2">Leave a comment</h2>
+    <div id="replay-box">
+	    @Html.Action("Create", "Comment", new { entryID = Model.ID})
+    </div>
+<div class="clear"/>
+
+
+<script type="text/javascript">
+    $('.label-title').click(function () {
+        $('#comments-container').slideToggle('slow');
+    })
+</script>
+
+<script type="text/javascript">
+    $('.label-title2').click(function () {
+        $('#replay-box').slideToggle('slow');
+    })
+</script>

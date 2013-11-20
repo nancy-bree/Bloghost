@@ -1,0 +1,108 @@
+﻿@model Bloghost.Web.Models.EntryViewModel
+
+@{
+    ViewBag.Title = "New Post";
+}
+<link rel="stylesheet" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+<script src="@Url.Content("~/Scripts/jquery-ui-1.10.3.js")"></script>
+<link href="@Url.Content("~/Content/jHtmlArea/jHtmlArea.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/jHtmlArea/jHtmlArea.ColorPickerMenu.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jHtmlArea-0.7.5.js")"></script>
+<script src="@Url.Content("~/Scripts/jHtmlArea.ColorPickerMenu-0.7.0.min.js")"></script>
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">New Post</h1>
+	</div>
+} 
+
+<div class="form-block">
+    @using (Html.BeginForm("Create", "Entry", FormMethod.Post)) { 
+        @Html.AntiForgeryToken() 
+        @Html.ValidationSummary(true) 
+            <div class="editor-label"> 
+                <b>@Html.LabelFor(x => x.Title) </b>
+            </div> 
+            <div class="editor-field"> 
+                @Html.EditorFor(x => x.Title) 
+                @Html.ValidationMessageFor(x => x.Title) 
+            </div> 
+            <br />
+            <div class="editor-field"> 
+                @Html.TextAreaFor(x => x.EntryBody, 25, 10, new { @id = "txtEditor"})
+                @Html.ValidationMessageFor(x => x.EntryBody) 
+            </div> 
+            <br />
+            <div class="editor-label"> 
+                <b>@Html.LabelFor(x => x.Tags) </b>
+            </div>
+            <div class="editor-field"> 
+                @Html.TextBoxFor(x => x.Tags)
+            </div> 
+            <br />
+            <p> 
+                <input type="submit" value="Create" class="button" /> 
+            </p> 
+    } 
+</div>
+
+<script>
+    $(function () {
+        function split(val) {
+            return val.split(/,\s*/);
+        }
+        function extractLast(term) {
+            return split(term).pop();
+        }
+
+        $("#Tags")
+          // don't navigate away from the field on tab when selecting an item
+          .bind("keydown", function (event) {
+              if (event.keyCode === $.ui.keyCode.TAB &&
+                  $(this).data("ui-autocomplete").menu.active) {
+                  event.preventDefault();
+              }
+          })
+          .autocomplete({
+              source: function (request, response) {
+                  $.getJSON("/Tag/GetTags", {
+                      term: extractLast(request.term)
+                  }, response);
+              },
+              search: function () {
+                  // custom minLength
+                  var term = extractLast(this.value);
+                  if (term.length < 2) {
+                      return false;
+                  }
+              },
+              focus: function () {
+                  // prevent value inserted on focus
+                  return false;
+              },
+              select: function (event, ui) {
+                  var terms = split(this.value);
+                  // remove the current input
+                  terms.pop();
+                  // add the selected item
+                  terms.push(ui.item.value);
+                  // add placeholder to get the comma-and-space at the end
+                  terms.push("");
+                  this.value = terms.join(", ");
+                  return false;
+              }
+          });
+    });
+  </script>
+
+<script>
+    $(function () {
+        $("textarea").htmlarea({
+            toolbar: ["html", "|",
+                    "forecolor",  // <-- Add the "forecolor" Toolbar Button
+                    "|", "bold", "italic", "underline", "strikeThrough", "|", "h1", "h2", "h3", "|", "link", "unlink", "|", "image", "|", "orderedList", "unorderedList"], // Overrides/Specifies the Toolbar buttons to show
+            css: '/Content/jHtmlArea/jHtmlArea.Editor.css'
+        });
+    });
+</script>

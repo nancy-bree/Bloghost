@@ -1,0 +1,4 @@
+﻿@model Bloghost.Web.Models.EntryListViewModel
+
+<h1 class="title">@Html.DisplayFor(x => Model.BlogTitle)</h1>
+@if (!String.IsNullOrEmpty(Model.BlogSubtitle)) { <span class="blog-subtitle">@Html.DisplayFor(x => Model.BlogSubtitle)</span> }

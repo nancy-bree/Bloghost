@@ -1,0 +1,43 @@
+﻿<ul>
+    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        if (HttpContext.Current.User.Identity.Name == "Administrator")
+        {
+            <li>@Html.ActionLink("Users", "Users", "Administrator")</li>
+            <li>@Html.ActionLink("Entries", "Entries", "Administrator")</li>
+            <li>@Html.ActionLink("Tags", "Tags", "Administrator")</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Bloghost", "Blogs", "Blog")</li>
+            <li>@Html.ActionLink("New Post", "Create", "Entry")</li>
+            <li>@Html.ActionLink("Account", "Index", "Account")</li>
+        }
+        <li>@Html.ActionLink(String.Concat("Logout (", @User.Identity.Name, ")"), "Logout", "Account")</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Bloghost", "Blogs", "Blog")</li>
+		<li>@Html.ActionLink("Log In", "LogOn", "Account")</li>
+		<li>@Html.ActionLink("Sign Up", "Register", "Account")</li>
+    }
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#search-container .search-bar').click(function () {
+            $('.search-bar').animate({ width: 250 }, 1500);
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    function SearchBoxKeyPress(e) {
+        e = e || window.event;
+        var key = e.keyCode;
+        if (key == 13)
+        {
+            return true;
+        }
+    }
+</script>

@@ -1,0 +1,35 @@
+﻿@model Bloghost.Core.Entities.Comment
+
+	    <li class="cmmnt">
+		    <div class="avatar">
+                @if (Model.User.Userpic != null)
+                {
+                <img src="@Url.Content(String.Concat("~/_userpics/", Model.User.Userpic))" alt="@Model.User.Login">
+                }
+                else
+                {
+                    <img src="@Url.Content("~/_userpics/noimage.png")" alt="no image">
+                }
+		    </div>
+		    <div class="cmmnt-content">
+			    <h4>@Html.ActionLink(Model.User.Login, "Entries", "Blog", new { id = Model.User.Blog.ID}, new { @class = "userlink" })
+                     - <span class="pubdate">@Html.DisplayFor(x => Model.CreatedDate)</span>
+                    @if (Model.Modified != null)
+                    {
+                        <span class="editdate"><i> - edited: @Html.DisplayFor(x => Model.Modified)</i></span>
+                    }
+			    </h4>
+			    <p>@Html.DisplayFor(x => Model.CommentBody)</p>
+		    </div>
+	    </li>
+
+@*<ul class="replies">
+			    <li class="cmmnt">
+				    <div class="avatar"><a href="#"><img src="images/1.png" alt=""></a></div>
+				    <div class="cmmnt-content">
+					    <h4><a href="#" class="userlink">Sir_Pig</a> - <span class="pubdate">09.09.13 03:22</span></h4>
+					    <p>kkk</p>
+					    <p>fg</p>
+				    </div> 
+			    </li>
+		    </ul>*@

@@ -1,0 +1,66 @@
+﻿@model Bloghost.Web.Models.EditUserModel
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">Edit User</h1>
+	</div>
+} 
+<div class="form-block">
+
+    @using (Html.BeginForm("Index", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "Account edition was unsuccessful. Please correct the errors and try again.")
+        @Html.HiddenFor(m => m.ID)
+        <div>
+            <div class="editor-label">
+                <b>@Html.LabelFor(m => m.Name)</b>
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+            <br />
+            <div class="editor-label">
+                <b>@Html.LabelFor(m => m.Surname)</b>
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.Surname)
+                @Html.ValidationMessageFor(m => m.Surname)
+            </div>
+            <br />
+            @*<div class="editor-label">
+                <b>@Html.LabelFor(m => m.Image)</b>
+            </div>
+            <div class="editor-field">
+                <input type="file" name="Image" id="Image" class="form-control" accept="image/jpeg" /> 
+                @Html.ValidationMessageFor(m => m.Image) 
+            </div>
+            <br />*@
+            <div class="editor-label">
+                <b>@Html.LabelFor(m => m.BlogName)</b>
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.BlogName)
+                @Html.ValidationMessageFor(m => m.BlogName)
+            </div>
+            <br />
+            <div class="editor-label">
+                <b>@Html.LabelFor(m => m.BlogSubtitle)</b>
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.BlogSubtitle)
+                @Html.ValidationMessageFor(m => m.BlogSubtitle)
+            </div>
+            <br />
+            <p>
+                <input type="submit" value="Save" class="button" />
+            </p>
+        </div>
+    }
+</div>

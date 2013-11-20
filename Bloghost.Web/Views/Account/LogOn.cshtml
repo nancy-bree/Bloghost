@@ -1,0 +1,47 @@
+﻿@model Bloghost.Web.Models.LogInModel
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">Log in</h1>
+	</div>
+} 
+
+<div class="form-block">
+<p><i>Please enter your user name and password. <b>@Html.ActionLink("Register", "Register")</b> if you don't have an account.</i></p>
+
+@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+
+@using (Html.BeginForm("LogOn", "Account", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    <div>
+        <div class="editor-label">
+            <b>@Html.LabelFor(m => m.UserName)</b>
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+        <br />
+        <div class="editor-label">
+            <b>@Html.LabelFor(m => m.Password)</b>
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <br />
+        <div class="editor-label">
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.LabelFor(m => m.RememberMe)
+        </div>
+        <br />
+        <p>
+            <input type="submit" value="Log On" class="button" />
+        </p>
+    </div>
+}
+</div>

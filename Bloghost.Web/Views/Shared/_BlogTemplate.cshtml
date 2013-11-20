@@ -1,0 +1,24 @@
+﻿@model Bloghost.Core.Entities.Blog
+
+@{
+    ViewBag.Title = "_BlogTemplate";
+}
+<div class="blog-block">
+    
+    <div class="post-content">
+        
+        <div class="blog-content-inner">
+            @if (Model.User.Userpic != null)
+            {
+                <img src="@Url.Content(String.Concat("~/_userpics", Model.User.Userpic))" alt="@Model.User.Login" style="float:left"/>
+            }
+            else
+            {
+                <img src="@Url.Content("~/_userpics/noimage.png")" alt="@Model.User.Login" style="float:left"/>
+            }
+            <h2 class="blog-view-title">@Html.ActionLink(Model.BlogName, "Entries", new { id = Model.ID})</h2>
+            @if (!String.IsNullOrEmpty(Model.BlogSubtitle)) { <h3>@Html.DisplayFor(x => Model.BlogSubtitle)</h3> }
+            <em>Posts: @Model.Entries.Count</em>
+        </div>
+    </div>
+</div>

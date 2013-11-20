@@ -1,0 +1,14 @@
+﻿@model Bloghost.Core.Entities.Entry
+
+<div class="sidebar">
+	<div class="sidebar_widget orange">
+		<h2 class="widget-title">Метки</h2>
+		<ul class="widget-content">
+			@foreach (var item in Model.Tags)
+            {
+                <li>@Html.DisplayFor(x => item.Name)</li>
+            }
+		</ul>
+	</div>
+</div>
+

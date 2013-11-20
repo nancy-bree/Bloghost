@@ -1,0 +1,30 @@
+﻿@model Bloghost.Web.Models.EntryListViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@section Header
+{
+    <div id="header">
+		@Html.Partial("_BlogHeader")
+	</div>
+}
+
+<div id="posts">
+@if (Model.Entries.Count > 0)
+  {
+    foreach (var post in Model.Entries)
+    {
+    @Html.Partial("_EntryTemplate", post)
+    }
+  }
+  else
+  {
+    <p>No posts found!</p>
+  }
+</div>
+
+@Html.Partial("_OnThePageWidget", Model.Entries)
+
+<div class="clear"/>
+
+@Html.PagedListPager(Model.Entries, page => Url.Action("Entries", new RouteValueDictionary {{"id", Model.BlogID}, {"page", page }}), PagedListRenderOptions.PageNumbersOnly)

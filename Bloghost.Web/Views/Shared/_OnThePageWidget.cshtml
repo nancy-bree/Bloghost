@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Bloghost.Core.Entities.Entry>
+
+<div class="sidebar">
+    <div class="sidebar_widget lime">
+	    <h2 class="widget-title">On the page</h2>
+	    <ul class="widget-content">
+            @foreach (var item in Model)
+            {
+                <li>@Html.ActionLink(item.Title, "Entry",  "Entry", new { id = item.ID}, null)</li>
+            }
+	    </ul>
+    </div>
+</div>

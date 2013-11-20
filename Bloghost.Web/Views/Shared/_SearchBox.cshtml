@@ -1,0 +1,11 @@
+﻿<div class="search-bar">
+    @using (Html.BeginForm("SearchResults", "Blog", FormMethod.Get))
+{
+                <input name="searchString" 
+                    type="text" 
+                    id="searchString" 
+                    class="searchbox" 
+                    onfocus="this.value=''" 
+                    onkeypress="return SearchBoxKeyPress(event)"/>
+    }
+</div>

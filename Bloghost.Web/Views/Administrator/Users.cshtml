@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<Bloghost.Core.Entities.User>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    ViewBag.Title = "Users";
+}
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">@ViewBag.Title</h1>
+	</div>
+} 
+
+<p>
+    @Html.ActionLink("Add new user", "AddUser")
+</p>
+<div class="form-block">
+<table class="hovered">
+    <thead>
+        <tr>
+            <th >Login</th>
+            <th >Name</th>
+            <th >Surname</th>
+            <th >Email</th>
+            <th>Blog</th>
+            <th >Created Date</th>
+            <th >Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.Login == "Administrator") { continue; }
+        <tr>
+            <td>
+                @Html.DisplayFor(x => item.Login)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink(item.Blog.BlogName, "Entries", "Blog", new { id = item.Blog.ID }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.CreatedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditUser", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "DeleteUser", new { id=item.ID }, new { @class = "delete-link", @id = item.ID})
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+    </div>
+@Html.PagedListPager(Model, page => Url.Action("Users", new RouteValueDictionary() { { "page", page } }), PagedListRenderOptions.PageNumbersOnly)
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a.delete-link').click(OnDeleteClick);
+    });
+    function OnDeleteClick(e)
+    {
+        var userId = e.target.id;
+        var flag = confirm('You are about to delete that user and his blog permanently. Are you sure you want to delete?');
+        if (flag) {
+            $.ajax({
+                url: '/Administrator/DeleteUser',
+                type: 'POST',
+                data: { id: userId },
+                dataType: 'json',
+                success: function (result) { alert(result); $("#" + userId).parent().parent().remove(); },
+                error: function () { alert('Error!'); }
+            });
+        }
+        return false;
+    }
+</script>

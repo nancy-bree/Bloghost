@@ -1,0 +1,23 @@
+﻿@model Bloghost.Web.Models.BlogListViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@section Header
+{
+    <div id="header">
+        <h1 class="title">Blogs</h1>
+    </div>
+}
+<div id="blogs">
+@if (Model.Blogs.Count() > 0)
+  {
+    foreach (var blog in Model.Blogs)
+    {
+    @Html.Partial("_BlogTemplate", blog)
+    }
+  }
+  else
+  {
+    <p>No blogs found!</p>
+  }
+</div>
+@Html.PagedListPager(Model.Blogs, page => Url.Action("Blogs", new RouteValueDictionary() {{ "page", page }}), PagedListRenderOptions.PageNumbersOnly)

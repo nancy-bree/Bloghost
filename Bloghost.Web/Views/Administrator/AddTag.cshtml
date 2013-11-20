@@ -1,0 +1,32 @@
+﻿@model Bloghost.Core.Entities.Tag
+
+@{
+    ViewBag.Title = "Add Tag";
+}
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">Add Tag</h1>
+	</div>
+} 
+<div class="form-block">
+    @using (Html.BeginForm("AddTag", "Administrator", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div>
+            <div class="editor-label">
+                <b>@Html.LabelFor(m => m.Name)</b>
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+            <br />
+            <p>
+                <input type="submit" value="Add tag" class="button" />
+            </p>
+        </div>
+    }
+</div>

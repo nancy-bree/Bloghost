@@ -1,0 +1,83 @@
+﻿@model PagedList.IPagedList<Bloghost.Core.Entities.Comment>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    ViewBag.Title = "Comments";
+}
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">@ViewBag.Title</h1>
+	</div>
+} 
+
+<div class="form-block">
+<table class="hovered">
+    <thead>
+        <tr>
+            <th >User</th>
+            <th >Title</th>
+            <th >Text</th>
+            <th >Created Date</th>
+            <th >Modified</th>
+            <th>Blog</th>
+            <th >Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(x => item.User.Login)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.CommentBody)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Entry.Blog.BlogName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditComment", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "delete-link", @id = item.ID})
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+    </div>
+@Html.PagedListPager(Model, page => Url.Action("Comments", new RouteValueDictionary() {{ "page", page }}), PagedListRenderOptions.PageNumbersOnly)
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a.delete-link').click(OnDeleteClick);
+    });
+    function OnDeleteClick(e)
+    {
+        var commentId = e.target.id;
+        var flag = confirm('You are about to delete this comment permanently. Are you sure you want to delete this one?');
+        if (flag) {
+            $.ajax({
+                url: '/Administrator/DeleteComment',
+                type: 'POST',
+                data: { id: commentId },
+                dataType: 'json',
+                success: function (result) { alert(result); $("#" + commentId).parent().parent().remove(); },
+                error: function () { alert('Error!'); }
+            });
+        }
+        return false;
+    }
+</script>    

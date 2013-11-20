@@ -1,0 +1,32 @@
+﻿@model Bloghost.Core.Entities.Tag
+
+@{
+    ViewBag.Title = "Edit Tag";
+}
+
+@section Header
+{
+    <div id="header">
+		<h1 class="title">Edit tag</h1>
+	</div>
+} 
+    @using (Html.BeginForm("EditTag", "Administrator"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(m => m.ID)
+    <div class="form-block">
+        <div class="editor-label">
+            <b>@Html.LabelFor(m => m.Name)</b>
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+        <br />
+        <p>
+            <input type="submit" value="Save" class="button" />
+        </p>
+    </div>
+    }

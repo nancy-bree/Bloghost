@@ -1,0 +1,40 @@
+﻿@model Bloghost.Core.Entities.Comment
+
+@{
+    ViewBag.Title = "Edit Comment";
+}
+@section Header
+{
+    <div id="header">
+		<h1 class="title">Edit comment</h1>
+	</div>
+} 
+
+@using (Html.BeginForm("EditComment", "Administrator"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(x => x.ID)
+
+    <div class="form-block">
+        <div class="editor-label"> 
+            <b>@Html.LabelFor(x => x.Title)</b>
+        </div> 
+        <div class="editor-field"> 
+            @Html.EditorFor(x => x.Title)
+        </div> 
+        <br />
+        <div class="editor-label"> 
+            <b>@Html.LabelFor(x => x.CommentBody)</b>
+        </div> 
+        <div class="editor-field"> 
+            @Html.TextAreaFor(x => x.CommentBody, 5, 5, null)<br />
+            @Html.ValidationMessageFor(x => x.CommentBody) 
+        </div> 
+        <p> 
+            <input type="submit" value="Save" class="button" /> 
+        </p>
+    </div>
+}
+
